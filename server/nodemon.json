@@ -1,0 +1,6 @@
+{
+  "env": {
+    "PORT": 7777,
+    "DATABASE": "mongodb://localhost:27017/admin-console"
+  }
+}

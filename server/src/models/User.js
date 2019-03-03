@@ -1,0 +1,40 @@
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
+
+const userSchema = new Schema({
+  email: {
+    type: String,
+    unique: true,
+    lowercase: true,
+    trim: true,
+  },
+  name: {
+    type: String,
+    trim: true
+  },
+  surname: {
+    type: String,
+    trim: true
+  },
+  groupId: {
+    type: mongoose.Schema.ObjectId,
+    ref: 'Group',
+    required: 'Group should be chosen for all users'
+  },
+  branchId: {
+    type: mongoose.Schema.ObjectId,
+    ref: 'Branch',
+    required: 'Branch should be chosen for all users'
+  },
+  roles: [{
+    type: mongoose.Schema.ObjectId,
+    ref: 'Role',
+    required: 'User should have at least one role'
+  }],
+  status: {
+    type: Boolean,
+    default: false
+  }
+});
+
+module.exports = mongoose.model('User', userSchema);

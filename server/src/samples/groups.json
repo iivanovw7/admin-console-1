@@ -1,0 +1,32 @@
+[
+  {
+    "name": "Front-End Pool",
+    "description": "Group of all employees with Front-End expertise",
+    "permissions": false,
+    "active": true
+  },
+  {
+    "name": "Back-End Pool",
+    "description": "Group of all employees with Back-End expertise",
+    "permissions": false,
+    "active": true
+  },
+  {
+    "name": "Managers Pool",
+    "description": "Group of all employees of Manager level",
+    "permissions": true,
+    "active": true
+  },
+  {
+    "name": "Human Resource",
+    "description": "Group of all employees with HR expertise",
+    "permissions": true,
+    "active": true
+  },
+  {
+    "name": "Other",
+    "description": "Default group for all employees who does not match any other group",
+    "permissions": false,
+    "active": true
+  }
+]

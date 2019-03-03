@@ -1,0 +1,38 @@
+[
+  {
+    "name": "Administrator",
+    "code": "SYS_ADMIN",
+    "description": "Main System Administrator with full access",
+    "active": true
+  },
+  {
+    "name": "Branch Administrator",
+    "code": "BRANCH_ADMIN",
+    "description": "Administrator with full access to their own branch",
+    "active": true
+  },
+  {
+    "name": "Manager",
+    "code": "MANAGER",
+    "description": "An employee with preview access to employees from their own group",
+    "active": true
+  },
+  {
+    "name": "Support",
+    "code": "SUPPORT",
+    "description": "An employee with full access to all tickets in the system",
+    "active": true
+  },
+  {
+    "name": "Branch Support",
+    "code": "BRANCH_SUPPORT",
+    "description": "An employee with full access to all tickets of their own branch",
+    "active": true
+  },
+  {
+    "name": "User",
+    "code": "USER",
+    "description": "Default role for all employees without other privileges",
+    "active": true
+  }
+]
