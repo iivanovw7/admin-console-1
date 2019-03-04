@@ -26,11 +26,11 @@ const userSchema = new Schema({
     ref: 'Branch',
     required: 'Branch should be chosen for all users'
   },
-  roles: [{
+  role: {
     type: mongoose.Schema.ObjectId,
     ref: 'Role',
-    required: 'User should have at least one role'
-  }],
+    required: 'User should have a role'
+  },
   status: {
     type: Boolean,
     default: false

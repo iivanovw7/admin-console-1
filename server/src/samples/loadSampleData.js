@@ -17,6 +17,34 @@ const Message = require('../models/Message');
 const Role = require('../models/Role');
 const Ticket = require('../models/Ticket');
 const User = require('../models/User');
+// Special users
+const specialUsers = [
+  {
+    name: 'Admin',
+    surname: 'ADMIN',
+    email: 'admin@company.org'
+  },
+  {
+    name: 'Support',
+    surname: 'SUPPORT',
+    email: 'support@company.org'
+  },
+  {
+    name: 'Admin',
+    surname: 'BRANCH_ADMIN',
+    email: 'branch-admin@company.org'
+  },
+  {
+    name: 'Support',
+    surname: 'BRANCH_SUPPORT',
+    email: 'branch-support@company.org'
+  },
+  {
+    name: 'Manager',
+    surname: 'MANAGER',
+    email: 'manager@company.org'
+  }
+];
 
 const branches = JSON.parse(fs.readFileSync(__dirname + '/branches.json', 'utf-8'));
 const groups = JSON.parse(fs.readFileSync(__dirname + '/groups.json', 'utf-8'));
@@ -42,7 +70,7 @@ async function loadData() {
     await Branch.insertMany(branches);
     await Group.insertMany(groups);
     await Role.insertMany(roles);
-    const defaultRole = await Role.findOne({ name: 'User' });
+    const allRoles = await Role.find();
 
     for (let user of users){
       const randomBranch = await Branch.aggregate([{ $sample: { size: 1 } }]);
@@ -50,9 +78,24 @@ async function loadData() {
 
       const newUser = new User({
         ...user,
-        roles: [defaultRole._id],
+        role: allRoles.find(role => role.code === 'USER')._id,
         groupId: randomGroup[0]._id,
         branchId: randomBranch[0]._id,
+        created: Date.now()
+      });
+      await newUser.save();
+    }
+    // Inserting special users
+    for (let user of specialUsers) {
+      const randomBranch = await Branch.aggregate([{ $sample: { size: 1 } }]);
+      const randomGroup = await Group.aggregate([{ $sample: { size: 1 } }]);
+
+      const newUser = new User({
+        ...user,
+        role: allRoles.find(role => role.code === user.surname)._id,
+        groupId: randomGroup[0]._id,
+        branchId: randomBranch[0]._id,
+        active: true,
         created: Date.now()
       });
       await newUser.save();

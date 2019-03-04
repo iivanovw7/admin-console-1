@@ -1,7 +1,7 @@
 [
   {
     "name": "Administrator",
-    "code": "SYS_ADMIN",
+    "code": "ADMIN",
     "description": "Main System Administrator with full access",
     "active": true
   },
