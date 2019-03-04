@@ -135,6 +135,8 @@ paths:
     put:
       summary: Returns updated user.
       description: Updates the user with given values (fields which can be edited limited)
+      consumes:
+        - "application/x-www-form-urlencoded"
       parameters:
         - name: id
           in: path
