@@ -180,5 +180,160 @@ paths:
           schema:
             type: object
             example: { error: 'User not found' }
+  /tickets/branch/:branchId:
+    get:
+      summary: Returns list of tickets.
+      description: Returns list of users filtered by given branch ID
+      parameters:
+        - name: branchId
+          in: path
+          required: true
+          type: string
+        - name: page
+          in: query
+          required: false
+          description: A page number that user wants to request (offset)
+          type: integer
+          minimum: 1
+          default: 1
+        - name: limit
+          in: query
+          required: false
+          description: Number of items per page
+          type: integer
+          minimum: 1
+          default: 20
+      responses:
+        '200':
+          description: An object with data and information about total number and number of pages with given or default limit (20 items per page by default)
+          schema:
+            type: object
+            properties:
+              data:
+                type: array
+                items:
+                  type: object
+                example: [{
+                            _id: "5c7b54d6df8d462104a97f04",
+                            authorId: "6d7b54d6df8d462104a97f31",
+                            branchId: "5c7b54d2df8d462104a97ee6",
+                            message: "My mouse works incorrectly. Perhaps, I need a new one because I have been using this one for 5 years.",
+                            note: null,
+                            status: 'Opened',
+                            created: 1551680943445,
+                            closed: null
+                        }]
+              total:
+                type: integer
+                example: 1
+              page:
+                type: integer
+                example: 1
+  /tickets/user/:userId:
+    get:
+      summary: Returns list of tickets.
+      description: Returns list of users filtered by given user ID
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          type: string
+        - name: page
+          in: query
+          required: false
+          description: A page number that user wants to request (offset)
+          type: integer
+          minimum: 1
+          default: 1
+        - name: limit
+          in: query
+          required: false
+          description: Number of items per page
+          type: integer
+          minimum: 1
+          default: 20
+      responses:
+        '200':
+          description: An object with data and information about total number and number of pages with given or default limit (20 items per page by default)
+          schema:
+            type: object
+            properties:
+              data:
+                type: array
+                items:
+                  type: object
+                example: [{
+                            _id: "5c7b54d6df8d462104a97f04",
+                            authorId: "6d7b54d6df8d462104a97f31",
+                            branchId: "5c7b54d2df8d462104a97ee6",
+                            message: "My mouse works incorrectly. Perhaps, I need a new one because I have been using this one for 5 years.",
+                            note: null,
+                            status: 'Opened',
+                            created: 1551680943445,
+                            closed: null
+                        }]
+              total:
+                type: integer
+                example: 1
+              page:
+                type: integer
+                example: 1
+  /tickets/:id:
+    get:
+      summary: Returns one ticket with given ID.
+      description: Returns list of users filtered by given user ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: string
+      responses:
+        '200':
+          description: A ticket object
+          schema:
+            type: object
+            example: {
+                        _id: "5c7b54d6df8d462104a97f04",
+                        authorId: "6d7b54d6df8d462104a97f31",
+                        branchId: "5c7b54d2df8d462104a97ee6",
+                        message: "My mouse works incorrectly. Perhaps, I need a new one because I have been using this one for 5 years.",
+                        note: null,
+                        status: 'Opened',
+                        created: 1551680943445,
+                        closed: null
+                    }
 
+    put:
+      summary: Updates ticket and returns it.
+      description: Updates the ticket with given values (fields which can be edited limited)
+      consumes:
+        - "application/x-www-form-urlencoded"
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: string
+        - name: status
+          in: formData
+          required: true
+          type: string
+        - name: note
+          in: formData
+          required: false
+          type: string
+      responses:
+        '200':
+          description: An updated ticket
+          schema:
+            type: object
+            example: {
+              _id: "5c7b54d6df8d462104a97f04",
+              authorId: "6d7b54d6df8d462104a97f31",
+              branchId: "5c7b54d2df8d462104a97ee6",
+              message: "My mouse works incorrectly. Perhaps, I need a new one because I have been using this one for 5 years.",
+              note: "New mice will arrive in your office in a week",
+              status: 'In progress',
+              created: 1551680943445,
+              closed: null
+            }
 

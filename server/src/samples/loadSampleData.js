@@ -14,19 +14,22 @@ mongoose.Promise = global.Promise;
 const Branch = require('../models/Branch');
 const Group = require('../models/Group');
 const Role = require('../models/Role');
+const Ticket = require('../models/Ticket');
 const User = require('../models/User');
 
 const branches = JSON.parse(fs.readFileSync(__dirname + '/branches.json', 'utf-8'));
 const groups = JSON.parse(fs.readFileSync(__dirname + '/groups.json', 'utf-8'));
 const roles = JSON.parse(fs.readFileSync(__dirname + '/roles.json', 'utf-8'));
+const tickets = JSON.parse(fs.readFileSync(__dirname + '/tickets.json', 'utf-8'));
 const users = JSON.parse(fs.readFileSync(__dirname + '/users.json', 'utf-8'));
 
 async function deleteData() {
   console.log('Removing Data...');
-  await Branch.remove();
-  await Group.remove();
-  await Role.remove();
-  await User.remove();
+  await Branch.deleteMany();
+  await Group.deleteMany();
+  await Role.deleteMany();
+  await Ticket.deleteMany();
+  await User.deleteMany();
   console.log('Data Deleted. To load sample data, run\n\n\t npm run sample\n\n');
   process.exit();
 }
@@ -49,6 +52,18 @@ async function loadData() {
         branchId: randomBranch[0]._id
       });
       await newUser.save();
+    }
+
+    for (let ticket of tickets) {
+      const randomUser = await User.aggregate([{ $sample: { size: 1 } }]);
+
+      const newTicket = new Ticket({
+        ...ticket,
+        authorId: randomUser.id,
+        branchId: randomUser.branchId,
+        closed: ['Closed', 'Cannot be done'].includes(ticket.status) ? Date.now() : null
+      });
+      await newTicket.save();
     }
 
     console.log('Done!');

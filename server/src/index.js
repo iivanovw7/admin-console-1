@@ -16,6 +16,7 @@ mongoose.connection.on('error', err => {
 require('./models/Branch');
 require('./models/Group');
 require('./models/Role');
+require('./models/Ticket');
 require('./models/User');
 
 
