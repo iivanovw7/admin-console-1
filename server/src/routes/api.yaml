@@ -1,4 +1,4 @@
-swagger: 2.0
+swagger: '2.0'
 info:
   version: 1.0.0
   title: Console API
@@ -36,6 +36,8 @@ paths:
             properties:
               data:
                 type: array
+                items:
+                  type: object
                 example: [{
                             _id: "5c7b54d6df8d462104a97f04",
                             roles: ["5c7b54d6df8d462104a97f03"],
@@ -83,6 +85,8 @@ paths:
             properties:
               data:
                 type: array
+                items:
+                  type: object
                 example: [{
                             _id: "5c7b54d6df8d462104a97f04",
                             roles: ["5c7b54d6df8d462104a97f03"],
