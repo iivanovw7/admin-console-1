@@ -40,7 +40,7 @@ paths:
                   type: object
                 example: [{
                             _id: "5c7b54d6df8d462104a97f04",
-                            roles: ["5c7b54d6df8d462104a97f03"],
+                            role: "5c7b54d6df8d462104a97f03",
                             status: true,
                             name: "Romy",
                             surname: "Lenham",
@@ -89,7 +89,7 @@ paths:
                   type: object
                 example: [{
                             _id: "5c7b54d6df8d462104a97f04",
-                            roles: ["5c7b54d6df8d462104a97f03"],
+                            role: "5c7b54d6df8d462104a97f03",
                             status: true,
                             name: "Romy",
                             surname: "Lenham",
@@ -119,7 +119,7 @@ paths:
             type: object
             example: {
                         _id: "5c7b54d6df8d462104a97f04",
-                        roles: ["5c7b54d6df8d462104a97f03"],
+                        role: "5c7b54d6df8d462104a97f03",
                         status: true,
                         name: "Romy",
                         surname: "Lenham",
@@ -150,7 +150,7 @@ paths:
           in: formData
           required: true
           type: string
-        - name: roles
+        - name: role
           in: formData
           required: true
           type: array
@@ -167,7 +167,7 @@ paths:
             type: object
             example: {
               _id: "5c7b54d6df8d462104a97f04",
-              roles: ["5c7b54d6df8d462104a97f03"],
+              role: "5c7b54d6df8d462104a97f03",
               status: true,
               name: "Romy",
               surname: "Lenham",
