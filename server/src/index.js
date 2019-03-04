@@ -15,6 +15,7 @@ mongoose.connection.on('error', err => {
 // Import all our models
 require('./models/Branch');
 require('./models/Group');
+require('./models/Message');
 require('./models/Role');
 require('./models/Ticket');
 require('./models/User');
