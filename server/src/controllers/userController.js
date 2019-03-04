@@ -9,7 +9,7 @@ const getListOfUsers = async (req, params) => {
   const skip = (page * limit) - limit;
   // Query the database for a list of users
   const usersPromise = User.find(params).skip(skip).limit(limit).sort({ surname: 'asc' });
-  const countPromise = User.countDocuments();
+  const countPromise = User.countDocuments(params);
   const [users, count] = await Promise.all([usersPromise, countPromise]);
   const pages = Math.ceil(count / limit);
 

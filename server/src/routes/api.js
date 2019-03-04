@@ -3,6 +3,7 @@ const router = express.Router();
 
 const UserController = require('../controllers/userController');
 const TicketController = require('../controllers/ticketController');
+const MessageController = require('../controllers/messageController');
 const { catchErrors } = require('../handlers/errorHandlers');
 
 // Users routes
@@ -22,5 +23,16 @@ router.get('/tickets/user/:id', catchErrors(TicketController.getTicketsByAuthorI
 router.get('/tickets/:id', catchErrors(TicketController.getTicketById));
 
 router.put('/tickets/:id', catchErrors(TicketController.updateTicketById));
+
+// Messages routes
+router.get('/messages/branch/:id', catchErrors(MessageController.getMessagesByBranchId));
+
+router.get('/messages/group/:id', catchErrors(MessageController.getMessagesByGroupId));
+
+router.get('/messages/user/:id', catchErrors(MessageController.getMessagesBySenderId));
+
+router.get('/messages/:id', catchErrors(MessageController.getMessageById));
+
+router.post('/messages/new', catchErrors(MessageController.addNewMessage));
 
 module.exports = router;

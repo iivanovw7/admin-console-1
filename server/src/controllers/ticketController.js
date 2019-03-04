@@ -9,7 +9,7 @@ const getListOfTickets = async (req, params) => {
   const skip = (page * limit) - limit;
   // Query the database for a list of tickets
   const ticketPromise = Ticket.find(params).skip(skip).limit(limit).sort({ surname: 'asc' });
-  const countPromise = Ticket.countDocuments();
+  const countPromise = Ticket.countDocuments(params);
   const [tickets, count] = await Promise.all([ticketPromise, countPromise]);
   const pages = Math.ceil(count / limit);
 

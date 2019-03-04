@@ -9,7 +9,7 @@ const getListOfMessages = async (req, params) => {
   const skip = (page * limit) - limit;
   // Query the database for a list of users
   const usersPromise = Message.find(params).skip(skip).limit(limit).sort({ surname: 'asc' });
-  const countPromise = Message.countDocuments();
+  const countPromise = Message.countDocuments(params);
   const [messages, count] = await Promise.all([usersPromise, countPromise]);
   const pages = Math.ceil(count / limit);
 
@@ -22,6 +22,39 @@ const getListOfMessages = async (req, params) => {
 
 const getAllMessages = async (req, res) => {
   const { messages, count, pages } = await getListOfMessages(req, {});
+
+  res.json({
+    data: messages,
+    total: count,
+    pages
+  });
+};
+
+const getMessagesByBranchId = async (req, res) => {
+  const { id } = req.params;
+  const { messages, count, pages } = await getListOfMessages(req, { branchId: id });
+
+  res.json({
+    data: messages,
+    total: count,
+    pages
+  });
+};
+
+const getMessagesByGroupId = async (req, res) => {
+  const { id } = req.params;
+  const { messages, count, pages } = await getListOfMessages(req, { groupId: id });
+
+  res.json({
+    data: messages,
+    total: count,
+    pages
+  });
+};
+
+const getMessagesBySenderId = async (req, res) => {
+  const { id } = req.params;
+  const { messages, count, pages } = await getListOfMessages(req, { senderId: id });
 
   res.json({
     data: messages,
@@ -58,6 +91,9 @@ const addNewMessage = async (req, res) => {
 
 module.exports = {
   getAllMessages,
+  getMessagesByBranchId,
+  getMessagesByGroupId,
+  getMessagesBySenderId,
   getMessageById,
   addNewMessage
 };
