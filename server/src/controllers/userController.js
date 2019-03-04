@@ -1,3 +1,4 @@
+const mongodb = require('mongodb');
 const mongoose = require('mongoose');
 
 const User = mongoose.model('User');
@@ -13,7 +14,7 @@ const getListOfUsers = async (params, skip, limit) => {
     users,
     count,
     pages
-  }
+  };
 };
 
 const getAllUsers = async (req, res) => {
@@ -57,23 +58,44 @@ const getUsersByGroupId = async (req, res) => {
   });
 };
 
-const getUserById = (req, res) => {
+const getUserById = async (req, res) => {
   const { id } = req.params;
-  User.findById(id)
-      .then(user => {
-        if (user) {
-          return res.json(user);
-        }
-        res.status(404).json({ error: 'User not found' });
-      })
-    .catch(err => {
-      res.status(404).json({ error: 'User not found' });
-    });
+  if (!mongodb.ObjectId.isValid(id)) {
+    return res.status(404).json({ error: 'User not found' });
+  }
+
+  const user = await User.findById(id);
+  if (user) {
+    return res.json(user);
+  }
+  res.status(404).json({ error: 'User not found' });
+};
+
+const updateUserById = async (req, res) => {
+  const { id } = req.params;
+  if (!mongodb.ObjectId.isValid(id)) {
+    return res.status(404).json({ error: 'User not found' });
+  }
+
+  // We should'nt allow to edit all fields
+  const updatedFields = {
+    groupId: req.body.groupId,
+    branchId: req.body.branchId,
+    roles: req.body.roles,
+    status: req.body.status
+  };
+  const user = await User.findOneAndUpdate({ _id: req.params.id }, { $set: updatedFields }, {
+    new: true, // returns new store instead of the old one
+    runValidators: true // requires to run all model validators (initially, they run on create only)
+  }).exec();
+
+  return res.json(user);
 };
 
 module.exports = {
   getAllUsers,
   getUsersByBranchId,
   getUsersByGroupId,
-  getUserById
+  getUserById,
+  updateUserById
 };

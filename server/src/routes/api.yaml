@@ -128,7 +128,53 @@ paths:
                         branchId: "5c7b54d2df8d462104a97ee6"
                       }
         '404':
-          description: Response in the case of exception of if user was not found
+          description: If the user was not found
+          schema:
+            type: object
+            example: { error: 'User not found' }
+    put:
+      summary: Returns updated user.
+      description: Updates the user with given values (fields which can be edited limited)
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: string
+        - name: branchId
+          in: formData
+          required: true
+          type: string
+        - name: groupId
+          in: formData
+          required: true
+          type: string
+        - name: roles
+          in: formData
+          required: true
+          type: array
+          items:
+            type: string
+        - name: status
+          in: formData
+          required: true
+          type: boolean
+      responses:
+        '200':
+          description: An updated user object
+          schema:
+            type: object
+            example: {
+              _id: "5c7b54d6df8d462104a97f04",
+              roles: ["5c7b54d6df8d462104a97f03"],
+              status: true,
+              name: "Romy",
+              surname: "Lenham",
+              email: "rlenham0@foxnews.com",
+              groupId: "5c7b54d4df8d462104a97ef9",
+              branchId: "5c7b54d2df8d462104a97ee6"
+            }
+        '404':
+          description: If the user was not found
           schema:
             type: object
             example: { error: 'User not found' }
