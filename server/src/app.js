@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 
 const api = require('./routes/api');
+const messageRoutes = require('./routes/messageRoutes');
 const ticketRoutes = require('./routes/ticketRoutes');
 const userRoutes = require('./routes/userRoutes');
 
@@ -13,6 +14,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // Set up routes
+app.use('/messages', messageRoutes);
 app.use('/tickets', ticketRoutes);
 app.use('/users', userRoutes);
 app.use('/api/v1', api);

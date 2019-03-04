@@ -20,7 +20,7 @@ const messageSchema = new Schema({
   },
   message: {
     type: String,
-    required: 'You must supply message'
+    required: 'You must supply a message'
   },
   created: {
     type: Date,
