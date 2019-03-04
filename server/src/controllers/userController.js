@@ -3,7 +3,10 @@ const mongoose = require('mongoose');
 
 const User = mongoose.model('User');
 
-const getListOfUsers = async (params, skip, limit) => {
+const getListOfUsers = async (req, params) => {
+  const page = req.query.page || 1;
+  const limit = parseInt(req.query.limit, 10) || 20;
+  const skip = (page * limit) - limit;
   // Query the database for a list of users
   const usersPromise = User.find(params).skip(skip).limit(limit).sort({ surname: 'asc' });
   const countPromise = User.countDocuments();
@@ -18,9 +21,6 @@ const getListOfUsers = async (params, skip, limit) => {
 };
 
 const getAllUsers = async (req, res) => {
-  const page = req.query.page || 1;
-  const limit = parseInt(req.query.limit, 10) || 20;
-  const skip = (page * limit) - limit;
   const { users, count, pages } = await getListOfUsers({}, skip, limit);
 
   res.json({
@@ -31,11 +31,8 @@ const getAllUsers = async (req, res) => {
 };
 
 const getUsersByBranchId = async (req, res) => {
-  const page = req.query.page || 1;
-  const limit = parseInt(req.query.limit, 10) || 20;
-  const skip = (page * limit) - limit;
   const { id } = req.params;
-  const { users, count, pages } = await getListOfUsers({ branchId: id }, skip, limit);
+  const { users, count, pages } = await getListOfUsers(req, { branchId: id });
 
   res.json({
     data: users,
@@ -45,11 +42,8 @@ const getUsersByBranchId = async (req, res) => {
 };
 
 const getUsersByGroupId = async (req, res) => {
-  const page = req.query.page || 1;
-  const limit = parseInt(req.query.limit, 10) || 20;
-  const skip = (page * limit) - limit;
   const { id } = req.params;
-  const { users, count, pages } = await getListOfUsers({ groupId: id }, skip, limit);
+  const { users, count, pages } = await getListOfUsers(req, { groupId: id });
 
   res.json({
     data: users,
