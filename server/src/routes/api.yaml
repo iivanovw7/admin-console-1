@@ -588,6 +588,9 @@ paths:
         - Messages
       summary: Returns a newly created message
       description: Creates a new message and returns it
+      consumes:
+        - "application/x-www-form-urlencoded"
+        - "application/json"
       produces:
         - "application/json"
       parameters:
