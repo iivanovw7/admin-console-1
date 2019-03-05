@@ -77,6 +77,9 @@ const getMessageById = async (req, res) => {
 };
 
 const addNewMessage = async (req, res) => {
+  if (!reg.body.groupId && !req.body.branchId) {
+    return res.status(400).json({ error: 'Group or Branch should be chosen' });
+  }
   // FIXME senderId should be taken from active user or by public API key
   const newMessage = new Message({
     groupId: req.body.groupId,
@@ -86,7 +89,7 @@ const addNewMessage = async (req, res) => {
   });
   const savedMessage = await newMessage.save();
   // Also, here the message should be sent to the group/branch
-  res.send(savedMessage.id);
+  res.json(savedMessage);
 };
 
 module.exports = {
