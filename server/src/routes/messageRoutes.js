@@ -1,8 +1,9 @@
-const express = require('express');
-const router = express.Router();
+import express from 'express';
 
-const MessageController = require('../controllers/messageController');
-const { catchErrors } = require('../handlers/errorHandlers');
+import * as MessageController from '../controllers/messageController';
+import { catchErrors } from '../handlers/errorHandlers';
+
+const router = express.Router();
 
 router.get('/', catchErrors(MessageController.getAllMessages));
 
@@ -10,4 +11,4 @@ router.get('/:id', catchErrors(MessageController.getMessageById));
 
 router.post('/new', catchErrors(MessageController.addNewMessage));
 
-module.exports = router;
+export default router;

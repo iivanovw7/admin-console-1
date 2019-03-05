@@ -1,10 +1,10 @@
-const express = require('express');
-const bodyParser = require('body-parser');
+import express from 'express';
+import bodyParser from 'body-parser';
 
-const api = require('./routes/api');
-const messageRoutes = require('./routes/messageRoutes');
-const ticketRoutes = require('./routes/ticketRoutes');
-const userRoutes = require('./routes/userRoutes');
+import api from './routes/api';
+import messageRoutes from './routes/messageRoutes';
+import ticketRoutes from './routes/ticketRoutes';
+import userRoutes from './routes/userRoutes';
 
 // create our Express app
 const app = express();
@@ -19,4 +19,4 @@ app.use('/tickets', ticketRoutes);
 app.use('/users', userRoutes);
 app.use('/api/v1', api);
 
-module.exports = app;
+export default app;

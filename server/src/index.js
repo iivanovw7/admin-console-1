@@ -1,4 +1,6 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
+
+import app from './app';
 
 // Connect to our Database and handle an bad connections
 mongoose.connect(process.env.DATABASE, { useNewUrlParser: true }, () => {
@@ -12,17 +14,7 @@ mongoose.connection.on('error', err => {
   console.error(`Error → ${err.message}`);
 });
 
-// Import all our models
-require('./models/Branch');
-require('./models/Group');
-require('./models/Message');
-require('./models/Role');
-require('./models/Ticket');
-require('./models/User');
-
-
 // Start our app!
-const app = require('./app');
 app.set('port', process.env.PORT || 7777);
 const server = app.listen(app.get('port'), () => {
   console.log(`Express running → PORT ${server.address().port}`);

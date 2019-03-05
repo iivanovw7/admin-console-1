@@ -1,10 +1,11 @@
-const express = require('express');
-const router = express.Router();
+import express from 'express';
 
-const UserController = require('../controllers/userController');
-const TicketController = require('../controllers/ticketController');
-const MessageController = require('../controllers/messageController');
-const { catchErrors } = require('../handlers/errorHandlers');
+import * as UserController from '../controllers/userController';
+import * as TicketController from '../controllers/ticketController';
+import * as MessageController from '../controllers/messageController';
+import { catchErrors } from '../handlers/errorHandlers';
+
+const router = express.Router();
 
 // Users routes
 router.get('/users/branch/:id', catchErrors(UserController.getUsersByBranchId));
@@ -35,4 +36,4 @@ router.get('/messages/:id', catchErrors(MessageController.getMessageById));
 
 router.post('/messages/new', catchErrors(MessageController.addNewMessage));
 
-module.exports = router;
+export default router;

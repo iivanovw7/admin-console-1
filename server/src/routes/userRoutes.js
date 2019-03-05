@@ -1,8 +1,9 @@
-const express = require('express');
-const router = express.Router();
+import express from 'express';
 
-const UserController = require('../controllers/userController');
-const { catchErrors } = require('../handlers/errorHandlers');
+import * as UserController from '../controllers/userController';
+import { catchErrors } from '../handlers/errorHandlers';
+
+const router = express.Router();
 
 router.get('/', catchErrors(UserController.getAllUsers));
 
@@ -10,4 +11,4 @@ router.get('/:id', catchErrors(UserController.getUserById));
 
 router.put('/:id', catchErrors(UserController.updateUserById));
 
-module.exports = router;
+export default router;

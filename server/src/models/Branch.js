@@ -1,6 +1,5 @@
-const mongoose = require('mongoose');
-const validator = require('validator');
-const Schema = mongoose.Schema;
+import mongoose, { Schema } from 'mongoose';
+import { isEmail } from 'validator';
 
 const branchSchema = new Schema({
   name: {
@@ -14,7 +13,7 @@ const branchSchema = new Schema({
     unique: true,
     lowercase: true,
     trim: true,
-    validate: [validator.isEmail, 'Invalid Email Address'],
+    validate: [isEmail, 'Invalid Email Address'],
     required: 'You must supply email address'
   },
   phone: {
@@ -37,4 +36,4 @@ const branchSchema = new Schema({
   }
 });
 
-module.exports = mongoose.model('Branch', branchSchema);
+export default mongoose.model('Branch', branchSchema);

@@ -1,7 +1,6 @@
-const mongodb = require('mongodb');
-const mongoose = require('mongoose');
+import mongodb from 'mongodb';
 
-const Message = mongoose.model('Message');
+import Message from '../models/Message';
 
 const getListOfMessages = async (req, params) => {
   const page = req.query.page || 1;
@@ -20,7 +19,7 @@ const getListOfMessages = async (req, params) => {
   };
 };
 
-const getAllMessages = async (req, res) => {
+export const getAllMessages = async (req, res) => {
   const { messages, count, pages } = await getListOfMessages(req, {});
 
   res.json({
@@ -30,7 +29,7 @@ const getAllMessages = async (req, res) => {
   });
 };
 
-const getMessagesByBranchId = async (req, res) => {
+export const getMessagesByBranchId = async (req, res) => {
   const { id } = req.params;
   const { messages, count, pages } = await getListOfMessages(req, { branchId: id });
 
@@ -41,7 +40,7 @@ const getMessagesByBranchId = async (req, res) => {
   });
 };
 
-const getMessagesByGroupId = async (req, res) => {
+export const getMessagesByGroupId = async (req, res) => {
   const { id } = req.params;
   const { messages, count, pages } = await getListOfMessages(req, { groupId: id });
 
@@ -52,7 +51,7 @@ const getMessagesByGroupId = async (req, res) => {
   });
 };
 
-const getMessagesBySenderId = async (req, res) => {
+export const getMessagesBySenderId = async (req, res) => {
   const { id } = req.params;
   const { messages, count, pages } = await getListOfMessages(req, { senderId: id });
 
@@ -63,7 +62,7 @@ const getMessagesBySenderId = async (req, res) => {
   });
 };
 
-const getMessageById = async (req, res) => {
+export const getMessageById = async (req, res) => {
   const { id } = req.params;
   if (!mongodb.ObjectId.isValid(id)) {
     return res.status(404).json({ error: 'Message not found' });
@@ -76,7 +75,7 @@ const getMessageById = async (req, res) => {
   res.json({ error: 'Message not found' });
 };
 
-const addNewMessage = async (req, res) => {
+export const addNewMessage = async (req, res) => {
   if (!reg.body.groupId && !req.body.branchId) {
     return res.status(400).json({ error: 'Group or Branch should be chosen' });
   }
@@ -90,13 +89,4 @@ const addNewMessage = async (req, res) => {
   const savedMessage = await newMessage.save();
   // Also, here the message should be sent to the group/branch
   res.json(savedMessage);
-};
-
-module.exports = {
-  getAllMessages,
-  getMessagesByBranchId,
-  getMessagesByGroupId,
-  getMessagesBySenderId,
-  getMessageById,
-  addNewMessage
 };

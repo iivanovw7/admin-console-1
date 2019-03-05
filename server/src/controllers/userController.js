@@ -1,7 +1,6 @@
-const mongodb = require('mongodb');
-const mongoose = require('mongoose');
+import mongodb from 'mongodb';
 
-const User = mongoose.model('User');
+import User from '../models/User';
 
 const getListOfUsers = async (req, params) => {
   const page = req.query.page || 1;
@@ -20,7 +19,7 @@ const getListOfUsers = async (req, params) => {
   };
 };
 
-const getAllUsers = async (req, res) => {
+export const getAllUsers = async (req, res) => {
   const { users, count, pages } = await getListOfUsers({}, skip, limit);
 
   res.json({
@@ -30,7 +29,7 @@ const getAllUsers = async (req, res) => {
   });
 };
 
-const getUsersByBranchId = async (req, res) => {
+export const getUsersByBranchId = async (req, res) => {
   const { id } = req.params;
   const { users, count, pages } = await getListOfUsers(req, { branchId: id });
 
@@ -41,7 +40,7 @@ const getUsersByBranchId = async (req, res) => {
   });
 };
 
-const getUsersByGroupId = async (req, res) => {
+export const getUsersByGroupId = async (req, res) => {
   const { id } = req.params;
   const { users, count, pages } = await getListOfUsers(req, { groupId: id });
 
@@ -52,7 +51,7 @@ const getUsersByGroupId = async (req, res) => {
   });
 };
 
-const getUserById = async (req, res) => {
+export const getUserById = async (req, res) => {
   const { id } = req.params;
   if (!mongodb.ObjectId.isValid(id)) {
     return res.status(404).json({ error: 'User not found' });
@@ -65,7 +64,7 @@ const getUserById = async (req, res) => {
   res.status(404).json({ error: 'User not found' });
 };
 
-const updateUserById = async (req, res) => {
+export const updateUserById = async (req, res) => {
   const { id } = req.params;
   if (!mongodb.ObjectId.isValid(id)) {
     return res.status(404).json({ error: 'User not found' });
@@ -84,12 +83,4 @@ const updateUserById = async (req, res) => {
   }).exec();
 
   return res.json(user);
-};
-
-module.exports = {
-  getAllUsers,
-  getUsersByBranchId,
-  getUsersByGroupId,
-  getUserById,
-  updateUserById
 };

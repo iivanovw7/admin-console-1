@@ -1,7 +1,6 @@
-const mongodb = require('mongodb');
-const mongoose = require('mongoose');
+import mongodb from 'mongodb';
 
-const Ticket = mongoose.model('Ticket');
+import Ticket from '../models/Ticket';
 
 const getListOfTickets = async (req, params) => {
   const page = req.query.page || 1;
@@ -20,7 +19,7 @@ const getListOfTickets = async (req, params) => {
   };
 };
 
-const getAllTickets = async (req, res) => {
+export const getAllTickets = async (req, res) => {
   const { tickets, count, pages } = await getListOfTickets(req, {});
 
   res.json({
@@ -30,7 +29,7 @@ const getAllTickets = async (req, res) => {
   });
 };
 
-const getTicketsByBranchId = async (req, res) => {
+export const getTicketsByBranchId = async (req, res) => {
   const { id } = req.params;
   const { tickets, count, pages } = await getListOfTickets(req, { branchId: id });
 
@@ -41,7 +40,7 @@ const getTicketsByBranchId = async (req, res) => {
   });
 };
 
-const getTicketsByAuthorId = async (req, res) => {
+export const getTicketsByAuthorId = async (req, res) => {
   const { id } = req.params;
   const { tickets, count, pages } = await getListOfTickets(req, { authorId: id });
 
@@ -52,7 +51,7 @@ const getTicketsByAuthorId = async (req, res) => {
   });
 };
 
-const getTicketById = async (req, res) => {
+export const getTicketById = async (req, res) => {
   const { id } = req.params;
   const ticket = await Ticket.findById(id);
   if (ticket) {
@@ -61,7 +60,7 @@ const getTicketById = async (req, res) => {
   res.status(404).json({ error: 'Ticket not found' });
 };
 
-const updateTicketById = async (req, res) => {
+export const updateTicketById = async (req, res) => {
   const { id } = req.params;
   if (!mongodb.ObjectId.isValid(id)) {
     return res.status(404).json({ error: 'Ticket not found' });
@@ -79,12 +78,4 @@ const updateTicketById = async (req, res) => {
   }).exec();
 
   return res.json(ticket);
-};
-
-module.exports = {
-  getAllTickets,
-  getTicketsByBranchId,
-  getTicketsByAuthorId,
-  getTicketById,
-  updateTicketById
 };

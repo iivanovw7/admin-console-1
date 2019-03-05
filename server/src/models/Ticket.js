@@ -1,5 +1,4 @@
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
+import mongoose, { Schema } from 'mongoose';
 
 const ticketSchema = new Schema({
   authorId: {
@@ -26,4 +25,4 @@ const ticketSchema = new Schema({
   closed: Date
 });
 
-module.exports = mongoose.model('Ticket', ticketSchema);
+export default mongoose.model('Ticket', ticketSchema);

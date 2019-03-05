@@ -1,8 +1,9 @@
-const express = require('express');
-const router = express.Router();
+import express from 'express';
 
-const TicketController = require('../controllers/ticketController');
-const { catchErrors } = require('../handlers/errorHandlers');
+import * as TicketController from '../controllers/ticketController';
+import { catchErrors } from '../handlers/errorHandlers';
+
+const router = express.Router();
 
 router.get('/', catchErrors(TicketController.getAllTickets));
 
@@ -10,4 +11,4 @@ router.get('/:id', catchErrors(TicketController.getTicketById));
 
 router.get('/:id', catchErrors(TicketController.updateTicketById));
 
-module.exports = router;
+export default router;
