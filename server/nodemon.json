@@ -1,6 +1,17 @@
 {
+  "verbose": false,
+  "ignore": [
+    ".git",
+    "node_modules/**/node_modules",
+    "src/**/*.spec.ts"
+  ],
+  "watch": [
+    "src/**/*.ts"
+  ],
   "env": {
     "PORT": 7777,
     "DATABASE": "mongodb://localhost:27017/admin-console"
-  }
+  },
+  "ext": "ts",
+  "exec": "ts-node ./src/index.ts"
 }

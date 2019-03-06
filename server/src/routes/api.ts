@@ -1,4 +1,4 @@
-import express from 'express';
+import * as express from 'express';
 
 import * as UserController from '../controllers/userController';
 import * as TicketController from '../controllers/ticketController';

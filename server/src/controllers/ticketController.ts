@@ -1,4 +1,4 @@
-import mongodb from 'mongodb';
+import * as mongodb from 'mongodb';
 
 import Ticket from '../models/Ticket';
 

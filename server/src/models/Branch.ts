@@ -1,4 +1,4 @@
-import mongoose, { Schema } from 'mongoose';
+import { Schema, model } from 'mongoose';
 import { isEmail } from 'validator';
 
 const branchSchema = new Schema({
@@ -36,4 +36,4 @@ const branchSchema = new Schema({
   }
 });
 
-export default mongoose.model('Branch', branchSchema);
+export default model('Branch', branchSchema);

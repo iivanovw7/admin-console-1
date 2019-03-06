@@ -1,4 +1,4 @@
-import mongodb from 'mongodb';
+import * as mongodb from 'mongodb';
 
 import Message from '../models/Message';
 
@@ -76,7 +76,7 @@ export const getMessageById = async (req, res) => {
 };
 
 export const addNewMessage = async (req, res) => {
-  if (!reg.body.groupId && !req.body.branchId) {
+  if (!req.body.groupId && !req.body.branchId) {
     return res.status(400).json({ error: 'Group or Branch should be chosen' });
   }
   // FIXME senderId should be taken from active user or by public API key

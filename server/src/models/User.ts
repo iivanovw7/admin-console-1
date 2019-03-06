@@ -1,4 +1,4 @@
-import mongoose, { Schema } from 'mongoose';
+import { Schema, model } from 'mongoose';
 
 const userSchema = new Schema({
   email: {
@@ -16,17 +16,17 @@ const userSchema = new Schema({
     trim: true
   },
   groupId: {
-    type: mongoose.Schema.ObjectId,
+    type: (Schema as any).ObjectId,
     ref: 'Group',
     required: 'Group should be chosen for all users'
   },
   branchId: {
-    type: mongoose.Schema.ObjectId,
+    type: (Schema as any).ObjectId,
     ref: 'Branch',
     required: 'Branch should be chosen for all users'
   },
   role: {
-    type: mongoose.Schema.ObjectId,
+    type: (Schema as any).ObjectId,
     ref: 'Role',
     required: 'User should have a role'
   },
@@ -40,4 +40,4 @@ const userSchema = new Schema({
   }
 });
 
-export default mongoose.model('User', userSchema);
+export default model('User', userSchema);

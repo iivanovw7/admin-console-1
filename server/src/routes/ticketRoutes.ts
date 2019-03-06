@@ -1,4 +1,4 @@
-import express from 'express';
+import * as express from 'express';
 
 import * as TicketController from '../controllers/ticketController';
 import { catchErrors } from '../handlers/errorHandlers';

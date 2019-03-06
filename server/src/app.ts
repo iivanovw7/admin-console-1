@@ -1,5 +1,5 @@
-import express from 'express';
-import bodyParser from 'body-parser';
+import * as express from 'express';
+import * as bodyParser from 'body-parser';
 
 import api from './routes/api';
 import messageRoutes from './routes/messageRoutes';
@@ -7,7 +7,7 @@ import ticketRoutes from './routes/ticketRoutes';
 import userRoutes from './routes/userRoutes';
 
 // create our Express app
-const app = express();
+const app: express.Express = express();
 
 // Takes the raw requests and turns them into usable properties on req.body
 app.use(bodyParser.json());

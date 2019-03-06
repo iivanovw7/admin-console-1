@@ -7,7 +7,9 @@ const config = {
   target: 'node',
 
   // Tell webpack the root file of our server application
-  entry: './src/index.js',
+  entry: './src/index.ts',
+
+  devtool: 'inline-source-map',
 
   // Tell webpack where to put output file that is generated
   output: {
@@ -19,9 +21,20 @@ const config = {
   // if this library from /node_modules/ folder
   externals: [webpackNodeExternals()],
 
+  resolve: {
+    extensions: ['.js', '.ts']
+  },
+
   // Tell webpack to run babel on every file it runs through
   module: {
     rules: [
+      {
+        test: /\.ts?$/,
+        loader: 'ts-loader',
+        options: {
+          transpileOnly: true
+        }
+      },
       {
         test: /\.js?$/,
         loader: 'babel-loader',

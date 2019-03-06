@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import * as mongoose from 'mongoose';
 
 import app from './app';
 
@@ -9,13 +9,13 @@ mongoose.connect(process.env.DATABASE, { useNewUrlParser: true }, () => {
 // Turn off deprecation
 mongoose.set('useFindAndModify', false);
 mongoose.set('useCreateIndex', true);
-mongoose.Promise = global.Promise; // Tell Mongoose to use ES6 promises
+(mongoose as any).Promise = global.Promise; // Tell Mongoose to use ES6 promises
 mongoose.connection.on('error', err => {
   console.error(`Error → ${err.message}`);
 });
 
 // Start our app!
 app.set('port', process.env.PORT || 7777);
-const server = app.listen(app.get('port'), () => {
-  console.log(`Express running → PORT ${server.address().port}`);
+app.listen(app.get('port'), () => {
+  console.log(`Express running → PORT ${app.get('port')}`);
 });

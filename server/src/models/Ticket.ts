@@ -1,12 +1,12 @@
-import mongoose, { Schema } from 'mongoose';
+import { Schema, model } from 'mongoose';
 
 const ticketSchema = new Schema({
   authorId: {
-    type: mongoose.Schema.ObjectId,
+    type: (Schema as any).ObjectId,
     ref: 'User'
   },
   branchId: {
-    type: mongoose.Schema.ObjectId,
+    type: (Schema as any).ObjectId,
     ref: 'Branch'
   },
   message: {
@@ -25,4 +25,4 @@ const ticketSchema = new Schema({
   closed: Date
 });
 
-export default mongoose.model('Ticket', ticketSchema);
+export default model('Ticket', ticketSchema);

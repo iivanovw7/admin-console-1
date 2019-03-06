@@ -1,16 +1,16 @@
-import mongoose, { Schema } from 'mongoose';
+import { Schema, model } from 'mongoose';
 
 const messageSchema = new Schema({
   senderId: {
-    type: mongoose.Schema.ObjectId,
+    type: (Schema as any).ObjectId,
     ref: 'User'
   },
   groupId: {
-    type: mongoose.Schema.ObjectId,
+    type: (Schema as any).ObjectId,
     ref: 'Group'
   },
   branchId: {
-    type: mongoose.Schema.ObjectId,
+    type: (Schema as any).ObjectId,
     ref: 'Branch'
   },
   subject: {
@@ -28,4 +28,4 @@ const messageSchema = new Schema({
   }
 });
 
-export default mongoose.model('Message', messageSchema);
+export default model('Message', messageSchema);

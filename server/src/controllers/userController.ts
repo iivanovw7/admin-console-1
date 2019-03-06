@@ -1,4 +1,4 @@
-import mongodb from 'mongodb';
+import * as mongodb from 'mongodb';
 
 import User from '../models/User';
 
@@ -20,7 +20,7 @@ const getListOfUsers = async (req, params) => {
 };
 
 export const getAllUsers = async (req, res) => {
-  const { users, count, pages } = await getListOfUsers({}, skip, limit);
+  const { users, count, pages } = await getListOfUsers(req, {});
 
   res.json({
     data: users,
