@@ -8,8 +8,8 @@
     "start:bundle": "nodemon build/bundle.js",
     "start:prod": "node build/bundle.js",
     "build": "webpack --mode production",
-    "sample": "node ./src/samples/loadSampleData.js",
-    "blowitallaway": "node ./src/samples/loadSampleData.js --delete"
+    "sample": "ts-node ./src/samples/loadSampleData.ts",
+    "blowitallaway": "ts-node ./src/samples/loadSampleData.ts --delete"
   },
   "keywords": [
     "Express.js",

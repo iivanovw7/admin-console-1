@@ -1,5 +1,13 @@
-const fs = require('fs');
-const mongoose = require('mongoose');
+import * as fs from 'fs';
+import * as mongoose from 'mongoose';
+
+// import all of our models - they need to be imported only once
+import Branch from '../models/Branch';
+import Group from '../models/Group';
+import Message from '../models/Message';
+import Role from '../models/Role';
+import Ticket from '../models/Ticket';
+import User from '../models/User';
 
 mongoose.connect('mongodb://localhost:27017/admin-console', { useNewUrlParser: true }, () => {
   console.log('Connected to the DB');
@@ -8,15 +16,7 @@ mongoose.connect('mongodb://localhost:27017/admin-console', { useNewUrlParser: t
 mongoose.set('useFindAndModify', false);
 mongoose.set('useCreateIndex', true);
 // Tell Mongoose to use ES6 promises
-mongoose.Promise = global.Promise;
-
-// import all of our models - they need to be imported only once
-const Branch = require('../models/Branch');
-const Group = require('../models/Group');
-const Message = require('../models/Message');
-const Role = require('../models/Role');
-const Ticket = require('../models/Ticket');
-const User = require('../models/User');
+(mongoose as any).Promise = global.Promise;
 // Special users
 const specialUsers = [
   {
@@ -46,21 +46,21 @@ const specialUsers = [
   }
 ];
 
-const branches = JSON.parse(fs.readFileSync(__dirname + '/branches.json', 'utf-8'));
-const groups = JSON.parse(fs.readFileSync(__dirname + '/groups.json', 'utf-8'));
-const messages = JSON.parse(fs.readFileSync(__dirname + '/messages.json', 'utf-8'));
-const roles = JSON.parse(fs.readFileSync(__dirname + '/roles.json', 'utf-8'));
-const tickets = JSON.parse(fs.readFileSync(__dirname + '/tickets.json', 'utf-8'));
-const users = JSON.parse(fs.readFileSync(__dirname + '/users.json', 'utf-8'));
+const branches: any = JSON.parse(fs.readFileSync(__dirname + '/branches.json', 'utf-8'));
+const groups: any = JSON.parse(fs.readFileSync(__dirname + '/groups.json', 'utf-8'));
+const messages: any = JSON.parse(fs.readFileSync(__dirname + '/messages.json', 'utf-8'));
+const roles: any  = JSON.parse(fs.readFileSync(__dirname + '/roles.json', 'utf-8'));
+const tickets: any = JSON.parse(fs.readFileSync(__dirname + '/tickets.json', 'utf-8'));
+const users: any = JSON.parse(fs.readFileSync(__dirname + '/users.json', 'utf-8'));
 
 async function deleteData() {
   console.log('Removing Data...');
-  await Branch.deleteMany();
-  await Group.deleteMany();
-  await Message.deleteMany();
-  await Role.deleteMany();
-  await Ticket.deleteMany();
-  await User.deleteMany();
+  await Branch.deleteMany({});
+  await Group.deleteMany({});
+  await Message.deleteMany({});
+  await Role.deleteMany({});
+  await Ticket.deleteMany({});
+  await User.deleteMany({});
   console.log('Data Deleted. To load sample data, run\n\n\t npm run sample\n\n');
   process.exit();
 }
@@ -70,7 +70,7 @@ async function loadData() {
     await Branch.insertMany(branches);
     await Group.insertMany(groups);
     await Role.insertMany(roles);
-    const allRoles = await Role.find();
+    const allRoles: any[] = await Role.find();
 
     for (let user of users){
       const randomBranch = await Branch.aggregate([{ $sample: { size: 1 } }]);
