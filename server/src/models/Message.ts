@@ -1,16 +1,16 @@
 import { Schema, model } from 'mongoose';
 
 const messageSchema = new Schema({
-  senderId: {
-    type: (Schema as any).ObjectId,
+  sender: {
+    type: Schema.Types.ObjectId,
     ref: 'User'
   },
-  groupId: {
-    type: (Schema as any).ObjectId,
+  group: {
+    type: Schema.Types.ObjectId,
     ref: 'Group'
   },
-  branchId: {
-    type: (Schema as any).ObjectId,
+  branch: {
+    type: Schema.Types.ObjectId,
     ref: 'Branch'
   },
   subject: {
@@ -27,5 +27,17 @@ const messageSchema = new Schema({
 
   }
 });
+
+// Define indexes
+messageSchema.index({ subject: 'text' });
+
+function autoPopulate(next) {
+  this.populate('sender', ['name', 'surname']);
+  next();
+}
+
+messageSchema
+    .pre('find', autoPopulate)
+    .pre('findOne', autoPopulate);
 
 export default model('Message', messageSchema);

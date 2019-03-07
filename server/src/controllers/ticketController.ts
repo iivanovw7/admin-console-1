@@ -6,6 +6,11 @@ const getListOfTickets = async (req, params) => {
   const page = req.query.page || 1;
   const limit = parseInt(req.query.limit, 10) || 20;
   const skip = (page * limit) - limit;
+  // If user typed a search string to filter by name
+  const search = req.query.search;
+  if (search) {
+    params['$text'] = { $search: search };
+  }
   // Query the database for a list of tickets
   const ticketPromise = Ticket.find(params).skip(skip).limit(limit).sort({ surname: 'asc' });
   const countPromise = Ticket.countDocuments(params);
@@ -31,7 +36,7 @@ export const getAllTickets = async (req, res) => {
 
 export const getTicketsByBranchId = async (req, res) => {
   const { id } = req.params;
-  const { tickets, count, pages } = await getListOfTickets(req, { branchId: id });
+  const { tickets, count, pages } = await getListOfTickets(req, { branch: id });
 
   res.json({
     data: tickets,

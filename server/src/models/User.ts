@@ -6,27 +6,30 @@ const userSchema = new Schema({
     unique: true,
     lowercase: true,
     trim: true,
+    required: 'You must supply an email'
   },
   name: {
     type: String,
-    trim: true
+    trim: true,
+    required: 'You must supply a name'
   },
   surname: {
     type: String,
-    trim: true
+    trim: true,
+    required: 'You must supply a surname'
   },
-  groupId: {
-    type: (Schema as any).ObjectId,
+  group: {
+    type: Schema.Types.ObjectId,
     ref: 'Group',
     required: 'Group should be chosen for all users'
   },
-  branchId: {
-    type: (Schema as any).ObjectId,
+  branch: {
+    type: Schema.Types.ObjectId,
     ref: 'Branch',
     required: 'Branch should be chosen for all users'
   },
   role: {
-    type: (Schema as any).ObjectId,
+    type: Schema.Types.ObjectId,
     ref: 'Role',
     required: 'User should have a role'
   },
@@ -38,6 +41,12 @@ const userSchema = new Schema({
     type: Date,
     default: Date.now
   }
+});
+
+// Define indexes
+userSchema.index({
+  name: 'text',
+  surname: 'text'
 });
 
 export default model('User', userSchema);

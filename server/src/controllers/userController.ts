@@ -6,6 +6,11 @@ const getListOfUsers = async (req, params) => {
   const page = req.query.page || 1;
   const limit = parseInt(req.query.limit, 10) || 20;
   const skip = (page * limit) - limit;
+  // If user typed a search string to filter by name
+  const search = req.query.search;
+  if (search) {
+    params['$text'] = { $search: search };
+  }
   // Query the database for a list of users
   const usersPromise = User.find(params).skip(skip).limit(limit).sort({ surname: 'asc' });
   const countPromise = User.countDocuments(params);
@@ -31,7 +36,7 @@ export const getAllUsers = async (req, res) => {
 
 export const getUsersByBranchId = async (req, res) => {
   const { id } = req.params;
-  const { users, count, pages } = await getListOfUsers(req, { branchId: id });
+  const { users, count, pages } = await getListOfUsers(req, { branch: id });
 
   res.json({
     data: users,
@@ -42,7 +47,7 @@ export const getUsersByBranchId = async (req, res) => {
 
 export const getUsersByGroupId = async (req, res) => {
   const { id } = req.params;
-  const { users, count, pages } = await getListOfUsers(req, { groupId: id });
+  const { users, count, pages } = await getListOfUsers(req, { group: id });
 
   res.json({
     data: users,
@@ -72,8 +77,8 @@ export const updateUserById = async (req, res) => {
 
   // We should'nt allow to edit all fields
   const updatedFields = {
-    groupId: req.body.groupId,
-    branchId: req.body.branchId,
+    group: req.body.group,
+    branch: req.body.branch,
     roles: req.body.roles,
     status: req.body.status
   };

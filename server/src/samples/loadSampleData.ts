@@ -79,8 +79,8 @@ async function loadData() {
       const newUser = new User({
         ...user,
         role: allRoles.find(role => role.code === 'USER')._id,
-        groupId: randomGroup[0]._id,
-        branchId: randomBranch[0]._id,
+        group: randomGroup[0]._id,
+        branch: randomBranch[0]._id,
         created: Date.now()
       });
       await newUser.save();
@@ -93,8 +93,8 @@ async function loadData() {
       const newUser = new User({
         ...user,
         role: allRoles.find(role => role.code === user.surname)._id,
-        groupId: randomGroup[0]._id,
-        branchId: randomBranch[0]._id,
+        group: randomGroup[0]._id,
+        branch: randomBranch[0]._id,
         active: true,
         created: Date.now()
       });
@@ -106,8 +106,8 @@ async function loadData() {
 
       const newTicket = new Ticket({
         ...ticket,
-        authorId: randomUser[0]._id,
-        branchId: randomUser[0].branchId,
+        author: randomUser[0]._id,
+        branch: randomUser[0].branch,
         closed: ['Closed', 'Cannot be done'].includes(ticket.status) ? Date.now() : null
       });
       await newTicket.save();
@@ -118,18 +118,18 @@ async function loadData() {
     for (let i = 0; i < l; i++) {
       const message = {
         ...messages[i],
-        senderId: randomUser[0]._id,
-        branchId: null,
-        groupId: null
+        sender: randomUser[0]._id,
+        branch: null,
+        group: null
       };
       if (i % 2 === 0) {
         // Message to branch
         const randomBranch = await Branch.aggregate([{ $sample: { size: 1 } }]);
-        message.branchId = randomBranch[0]._id;
+        message.branch = randomBranch[0]._id;
       } else {
         // Message to group
         const randomGroup = await Group.aggregate([{ $sample: { size: 1 } }]);
-        message.groupId = randomGroup[0]._id;
+        message.group = randomGroup[0]._id;
       }
 
       const newMessage = new Message(message);
